@@ -53,8 +53,7 @@ void drawBoard(struct Board board1[4][4]) {
 		}
 	}
 	itoa(score, gamescore);
-	itoa(oldscore, oldgamescore);
-	draw_string(oldgamescore, 70, 20, 0, 0, 0, BOTTOM_SCREEN);
+	draw_fillrect(70, 20, 70, 30, 90, 100, 225, BOTTOM_SCREEN);
 	draw_string("score: ", 20, 20, 0, 0, 0, BOTTOM_SCREEN);
 	draw_string(gamescore, 70, 20, 0, 0, 0, BOTTOM_SCREEN);
 }
