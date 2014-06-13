@@ -1,3 +1,4 @@
-A simple Breakout Homebrew for the 3DS.
+2048 Clone for 3DS
 
-To compile follow the instructions at http://gbatemp.net/threads/homebrew-development.360646/ to set up the build enviroment.
+Currently can draw the board and add (psuedo)random pieces to the board.
+somehow the game plays by itself, need to fix this.
