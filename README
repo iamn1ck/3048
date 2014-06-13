@@ -1,4 +1,11 @@
 2048 Clone for 3DS
 
-Currently can draw the board and add (psuedo)random pieces to the board.
-somehow the game plays by itself, need to fix this.
+Working except pause functionality and score printing
+
+Controls
+up/x
+down/b
+left/y
+right/a
+start-newgame;
+
