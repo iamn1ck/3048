@@ -11,7 +11,7 @@
 
 
 #define SIZE 4
-int score = 0;
+int score = 0, oldscore = 0;
 
 struct Board
 {
@@ -39,7 +39,7 @@ void init_board(struct Board board1[4][4])
 void drawBoard(struct Board board1[4][4]) {
 	int x, y;
 
-	char c, blockscore[8], gamescore[16];
+	char c, blockscore[8], gamescore[8], oldgamescore[8];
 
 	int i, j;
 	for (i = 0; i < 4; i++){
@@ -53,7 +53,10 @@ void drawBoard(struct Board board1[4][4]) {
 		}
 	}
 	itoa(score, gamescore);
-	draw_string(gamescore, 20, 20, 0, 0, 0, BOTTOM_SCREEN);
+	itoa(oldscore, oldgamescore);
+	draw_string(oldgamescore, 70, 20, 0, 0, 0, BOTTOM_SCREEN);
+	draw_string("score: ", 20, 20, 0, 0, 0, BOTTOM_SCREEN);
+	draw_string(gamescore, 70, 20, 0, 0, 0, BOTTOM_SCREEN);
 }
 
 
@@ -93,7 +96,8 @@ bool slideArray(struct Board board[4]) {
 			if (t != x) {
 				// if target is not zero, set stop to avoid double merge
 				if (board[t].value != 0) {
-					score += board[t].value + board[x].value;
+					oldscore = score;
+					score = score + board[t].value + board[x].value;
 					stop = t + 1;
 				}
 				board[t].value += board[x].value;
@@ -247,6 +251,19 @@ char key_press(){
 
 }
 
+void wait(int t){
+	int i = 0;
+	int j = 0;
+	int z = 0;
+
+	for (i = 0; i < t; i++) {
+		for (j = 0; j < t; j++) {
+			z = i / 33;
+		}
+	}
+
+}
+
 
 int main(){
 
@@ -264,13 +281,13 @@ int main(){
 		HID_new = key_press();
 		switch (HID_new) {
 		case 'l':	// left arrow
-			success = moveLeft(board1);  break;
+			success = moveUp(board1);  break;
 		case 'r':	// right arrow
-			success = moveRight(board1); break;
+			success = moveDown(board1); break;
 		case 'u':	// up arrow
-			success = moveUp(board1);    break;
+			success = moveRight(board1);    break;
 		case 'd':	// down arrow
-			success = moveDown(board1);  break;
+			success = moveLeft(board1);  break;
 		default: success = false;
 		}
 
@@ -281,25 +298,34 @@ int main(){
 			if (gameEnded(board1)) {
 				initscreens();
 				draw_string("new game?", 50, 50, 0, 0, 255, BOTTOM_SCREEN);
-
-				break;
+				initscreens(board1);
+				init_board(board1);
+				score = 0;
+				oldscore = 0;
+				addRandom(board1);
+				addRandom(board1);
+				drawBoard(board1);
 			}
 		}
 		if (HID_new == 'q') {
-			draw_string("new game?", 50, 50, 0, 0, 255, BOTTOM_SCREEN);
+			draw_string("new game? start", 50, 50, 0, 0, 255, BOTTOM_SCREEN);
+			draw_string("continue    A/R", 50, 60, 0, 0, 255, BOTTOM_SCREEN);
+			HID_new = '0';
 			while (true) {
 				HID_new = key_press();
-				if (HID_new == 'y'){
+				if (HID_new == 'q'){
 					initscreens(board1);
+					init_board(board1);
 					addRandom(board1);
 					addRandom(board1);
 					drawBoard(board1);
 					break;
 				}
-				else {
+				if (HID_new == 'r') {
 					drawBoard(board1);
 					break;
 				}
+
 			}
 		}
 	}
